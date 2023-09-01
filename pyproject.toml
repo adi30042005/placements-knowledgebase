@@ -1,0 +1,12 @@
+[project]
+name = "amrita-place"
+version = "1.0.0"
+dependencies = [
+"flask",
+"mariadb",
+"flask-sqlalchemy",
+]
+
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
