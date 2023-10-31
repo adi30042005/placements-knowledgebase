@@ -32,7 +32,7 @@ class Courses(Base):
   # add __init__ and __repr__ definitions to all classes
 
 
-#to be edited by me(adi) n vatsu n nigga
+#to be edited by me(adi) n vatsu n praneeth
 from sqlalchemy import Column, Integer, String, DateTime, Text, ForeignKey, Boolean
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql import func
