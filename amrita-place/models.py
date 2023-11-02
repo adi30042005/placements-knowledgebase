@@ -43,52 +43,100 @@ from sqlalchemy.sql import func
 #     def __repr__(self):
 #         return f"<User {self.username}>"
 
+# class Student(Base):
+#     __tablename__ = 'student' # follow this format for naming the table
+#     roll_no = Column(Integer, primary_key=True)
+#     email_id = Column(String) # set length of string as well. like String(100) see above comments
+#     name = Column(String)
+#     linkedIN_profile = Column(String)
+#     salary = Column(Integer)
+#     CGPA = Column(Integer)
+#     companyID = Column(Integer, ForeignKey('company.CompanyID'))
+#     adminID = Column(Integer, ForeignKey('administrator.AdminID'))
+
+# class PhoneNumber(Base):
+#     tablename = 'phone_number'
+#     rollNumber = Column(Integer, ForeignKey('student.roll_no'), primary_key=True)
+#     phoneNumber = Column(String)
+
+# class Company(Base):
+#     tablename = 'company'
+#     logo = Column(String)
+#     name = Column(String)
+#     CompanyID = Column(Integer, primary_key=True)
+
+# class Degree(Base):
+#     tablename = 'degree'
+#     programID = Column(Integer, primary_key=True)
+#     name = Column(String)
+#     branch = Column(String)
+
+# class InterviewExperience(Base):
+#     tablename = 'interview_experience'
+#     interviewID = Column(Integer, primary_key=True)
+#     positivePoints = Column(String)
+#     isJobSecured = Column(String)
+#     improvements = Column(String)
+#     rollNumber = Column(Integer, ForeignKey('student.roll_no'))
+#     companyID = Column(Integer, ForeignKey('company.CompanyID'))
+
+# class Administrator(Base):
+#     tablename = 'administrator'
+#     username = Column(String)
+#     AdminID = Column(Integer, primary_key=True)
+#     PasswordHash = Column(String)
+#     Name = Column(String)
+
+# class StudentDegreeHolder(Base):
+#     tablename = 'student_degree_holder'
+#     rollNumber = Column(Integer, ForeignKey('student.roll_no'), primary_key=True)
+#     ProgrammeID=Column(Integer, ForeignKey('degree.programID'))
 class Student(Base):
-    __tablename__ = 'student' # follow this format for naming the table
+    __tablename__ = 'student'
     roll_no = Column(Integer, primary_key=True)
-    email_id = Column(String) # set length of string as well. like String(100) see above comments
-    name = Column(String)
-    linkedIN_profile = Column(String)
+    email_id = Column(String(100))
+    name = Column(String(100))
+    linkedIN_profile = Column(String(500))
     salary = Column(Integer)
     CGPA = Column(Integer)
     companyID = Column(Integer, ForeignKey('company.CompanyID'))
     adminID = Column(Integer, ForeignKey('administrator.AdminID'))
 
 class PhoneNumber(Base):
-    tablename = 'phone_number'
+    __tablename__ = 'phone_number'
     rollNumber = Column(Integer, ForeignKey('student.roll_no'), primary_key=True)
-    phoneNumber = Column(String)
+    phoneNumber = Column(String(15))
 
 class Company(Base):
-    tablename = 'company'
-    logo = Column(String)
-    name = Column(String)
+    __tablename__ = 'company'
+    logo = Column(String(500))
+    name = Column(String(100))
     CompanyID = Column(Integer, primary_key=True)
 
 class Degree(Base):
-    tablename = 'degree'
+    __tablename__ = 'degree'
     programID = Column(Integer, primary_key=True)
-    name = Column(String)
-    branch = Column(String)
+    name = Column(String(100))
+    branch = Column(String(100))
 
 class InterviewExperience(Base):
-    tablename = 'interview_experience'
+    __tablename__ = 'interview_experience'
     interviewID = Column(Integer, primary_key=True)
-    positivePoints = Column(String)
-    isJobSecured = Column(String)
-    improvements = Column(String)
+    positivePoints = Column(String(500))
+    isJobSecured = Column(String(10))
+    improvements = Column(String(500))
     rollNumber = Column(Integer, ForeignKey('student.roll_no'))
     companyID = Column(Integer, ForeignKey('company.CompanyID'))
 
 class Administrator(Base):
-    tablename = 'administrator'
-    username = Column(String)
+    __tablename__ = 'administrator'
+    username = Column(String(50))
     AdminID = Column(Integer, primary_key=True)
-    PasswordHash = Column(String)
-    Name = Column(String)
+    PasswordHash = Column(String(256))
+    Name = Column(String(100))
 
 class StudentDegreeHolder(Base):
-    tablename = 'student_degree_holder'
+    __tablename__ = 'student_degree_holder'
     rollNumber = Column(Integer, ForeignKey('student.roll_no'), primary_key=True)
     ProgrammeID=Column(Integer, ForeignKey('degree.programID'))
 
