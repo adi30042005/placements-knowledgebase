@@ -1,105 +1,95 @@
 from sqlalchemy import Column, Integer, String, DateTime, Text, ForeignKey
 from sqlalchemy.orm  import relationship, Mapped, mapped_column
-from database import Base
+from amrita_place.database import Base
 from sqlalchemy.sql import func
 
 # Example Classes for creating tables, and PK, FK relations
 
-class Student(Base):
-    __tablename__ = 'students'
-    id = Column(Integer, primary_key=True)
-    firstname = Column(String(100), nullable=False)
-    lastname = Column(String(100), nullable=False)
-    email = Column(String(80), unique=True, nullable=False)
-    age = Column(Integer)
-    created_at = Column(DateTime(timezone=True),
-                           server_default=func.now())
-    bio = Column(Text)
-    course_id = mapped_column(ForeignKey("courses.course_id")) # Child table 
+# class Student(Base):
+#     __tablename__ = 'students'
+#     id = Column(Integer, primary_key=True)
+#     firstname = Column(String(100), nullable=False)
+#     lastname = Column(String(100), nullable=False)
+#     email = Column(String(80), unique=True, nullable=False)
+#     age = Column(Integer)
+#     created_at = Column(DateTime(timezone=True),
+#                            server_default=func.now())
+#     bio = Column(Text)
+#     course_id = mapped_column(ForeignKey("courses.course_id")) # Child table 
 
-    def __init__(self, firstname, lastname): # constructor. Defines what to do when you do stu = Student("Bob", "Morly", ...)
-        self.firstname = firstname
+#     def __init__(self, firstname, lastname): # constructor. Defines what to do when you do stu = Student("Bob", "Morly", ...)
+#         self.firstname = firstname
 
 
-    def __repr__(self): # this tells python what to print if you do print(student) where student is a Student object.
-        return f'<Student {self.firstname}>'
+#     def __repr__(self): # this tells python what to print if you do print(student) where student is a Student object.
+#         return f'<Student {self.firstname}>'
     
-class Courses(Base):
-    __tablename__ = "courses"
-    course_id = Column(Integer, primary_key=True)
-    course_name = Column(String(100), nullable=False)
-    children = relationship() # Parent table
-  # add __init__ and __repr__ definitions to all classes
+# class Courses(Base):
+#     __tablename__ = "courses"
+#     course_id = Column(Integer, primary_key=True)
+#     course_name = Column(String(100), nullable=False)
+#     children = relationship() # Parent table
 
+# class User(Base):
+#     __tablename__ = 'user'
+#     id = Column(Integer, primary_key=True, autoincrement=True)
+#     username = Column(Text, nullable=False, unique=True)
+#     password_hash = Column(Text)
 
-#to be edited by me(adi) n vatsu n nigga
-from sqlalchemy import Column, Integer, String, DateTime, Text, ForeignKey, Boolean
-from sqlalchemy.orm import relationship
-from sqlalchemy.sql import func
-from database import Base
+#     def __init__(self, username, password_hash):
+#         self.username = username
+#         self.password_hash = password_hash
+    
+#     def __repr__(self):
+#         return f"<User {self.username}>"
 
 class Student(Base):
-    __tablename__ = 'students'
-    id = Column(Integer, primary_key=True)
-    firstname = Column(String(100), nullable=False)
-    lastname = Column(String(100), nullable=False)
-    email = Column(String(80), unique=True, nullable=False)
-    age = Column(Integer)
-    created_at = Column(DateTime(timezone=True), server_default=func.now())
-    bio = Column(Text)
-    course_id = Column(Integer, ForeignKey("courses.course_id")) # Child table 
-
-    def __init__(self, firstname, lastname): # constructor. Defines what to do when you do stu = Student("Bob", "Morly", ...)
-        self.firstname = firstname
-        self.lastname = lastname
-
-    def __repr__(self): # this tells python what to print if you do print(student) where student is a Student object.
-        return f'<Student {self.firstname}>'
-
-class Courses(Base):
-    __tablename__ = "courses"
-    course_id = Column(Integer, primary_key=True)
-    course_name = Column(String(100), nullable=False)
-    students = relationship("Student", backref="courses") # Parent table
+    __tablename__ = 'student' # follow this format for naming the table
+    roll_no = Column(Integer, primary_key=True)
+    email_id = Column(String) # set length of string as well. like String(100) see above comments
+    name = Column(String)
+    linkedIN_profile = Column(String)
+    salary = Column(Integer)
+    CGPA = Column(Integer)
+    companyID = Column(Integer, ForeignKey('company.CompanyID'))
+    adminID = Column(Integer, ForeignKey('administrator.AdminID'))
 
 class PhoneNumber(Base):
-    __tablename__ = "phone_number"
-    roll_number = Column(Integer, ForeignKey("students.id"), primary_key=True)
-    phone_number = Column(String(20), primary_key=True)
+    tablename = 'phone_number'
+    rollNumber = Column(Integer, ForeignKey('student.roll_no'), primary_key=True)
+    phoneNumber = Column(String)
 
 class Company(Base):
-    __tablename__ = "company"
-    company_id = Column(Integer, primary_key=True)
-    logo = Column(String(255))
-    name = Column(String(100), nullable=False)
+    tablename = 'company'
+    logo = Column(String)
+    name = Column(String)
+    CompanyID = Column(Integer, primary_key=True)
 
 class Degree(Base):
-    __tablename__ = "degree"
-    program_id = Column(Integer, primary_key=True)
-    name = Column(String(100), nullable=False)
-    branch = Column(String(100))
+    tablename = 'degree'
+    programID = Column(Integer, primary_key=True)
+    name = Column(String)
+    branch = Column(String)
 
 class InterviewExperience(Base):
-    __tablename__ = "interview_experience"
-    interview_id = Column(Integer, primary_key=True)
-    positive_points = Column(Text)
-    is_job_secured = Column(Boolean)
-    improvements = Column(Text)
-    roll_number = Column(Integer, ForeignKey("students.id"))
-    company_id = Column(Integer, ForeignKey("company.company_id"))
+    tablename = 'interview_experience'
+    interviewID = Column(Integer, primary_key=True)
+    positivePoints = Column(String)
+    isJobSecured = Column(String)
+    improvements = Column(String)
+    rollNumber = Column(Integer, ForeignKey('student.roll_no'))
+    companyID = Column(Integer, ForeignKey('company.CompanyID'))
 
 class Administrator(Base):
-    __tablename__ = "administrator"
-    admin_id = Column(Integer, primary_key=True)
-    username = Column(String(100), nullable=False)
-    password_hash = Column(String(255), nullable=False)
-    name = Column(String(100), nullable=False)
+    tablename = 'administrator'
+    username = Column(String)
+    AdminID = Column(Integer, primary_key=True)
+    PasswordHash = Column(String)
+    Name = Column(String)
 
 class StudentDegreeHolder(Base):
-    __tablename__ = "student_degree_holder"
-    roll_number = Column(Integer, ForeignKey("students.id"), primary_key=True)
-    program_id = Column(Integer, ForeignKey("degree.program_id"), primary_key=True)
-
-
+    tablename = 'student_degree_holder'
+    rollNumber = Column(Integer, ForeignKey('student.roll_no'), primary_key=True)
+    ProgrammeID=Column(Integer, ForeignKey('degree.programID'))
 
     
