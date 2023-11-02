@@ -19,7 +19,7 @@ def index():
     #         ' ORDER BY created DESC'
     #         ).fetchall()
     # return render_template('blog/index.html', posts=posts) # we are giving jinja the posts variable... i think
-    return render_template('blog/index.html', ) # we are giving jinja the posts variable... i think
+    return render_template('dashboard/index.html', ) # we are giving jinja the posts variable... i think
 
 
 @bp.route('/create', methods=('GET', 'POST'))
