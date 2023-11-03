@@ -44,52 +44,93 @@ from sqlalchemy.sql import func
 #         return f"<User {self.username}>"
 
 class Student(Base):
-    __tablename__ = 'student' # follow this format for naming the table
-    roll_no = Column(Integer, primary_key=True)
-    email_id = Column(String) # set length of string as well. like String(100) see above comments
-    name = Column(String)
-    linkedIN_profile = Column(String)
+    __tablename__ = 'student'
+    rollNumber = Column(String(50), primary_key=True)
+    emailId = Column(String(100))
+    name = Column(String(100))
+    linkedInProfile = Column(String(500))
     salary = Column(Integer)
-    CGPA = Column(Integer)
-    companyID = Column(Integer, ForeignKey('company.CompanyID'))
-    adminID = Column(Integer, ForeignKey('administrator.AdminID'))
+    cgpa = Column(Integer)
+    companyId = Column(Integer, ForeignKey('company.companyId'))
+    adminId = Column(Integer, ForeignKey('administrator.adminId'))
+
+    def __init__(self, rollNumber, emailId, name, linkedInProfile, salary, cgpa, companyId, adminId):
+        self.rollNumber = rollNumber
+        self.emailId = emailId
+        self.name = name
+        self.linkedInProfile = linkedInProfile
+        self.salary = salary
+        self.cgpa = cgpa
+        self.companyId = companyId
+        self.adminId = adminId
 
 class PhoneNumber(Base):
-    tablename = 'phone_number'
-    rollNumber = Column(Integer, ForeignKey('student.roll_no'), primary_key=True)
-    phoneNumber = Column(String)
+    __tablename__ = 'phoneNumber'
+    rollNumber = Column(String(50), ForeignKey('student.rollNumber'), primary_key=True)
+    phoneNumber = Column(String(15))
+
+    def __init__(self, rollNumber, phoneNumber):
+        self.rollNumber = rollNumber
+        self.phoneNumber = phoneNumber
 
 class Company(Base):
-    tablename = 'company'
-    logo = Column(String)
-    name = Column(String)
-    CompanyID = Column(Integer, primary_key=True)
+    __tablename__ = 'company'
+    logo = Column(String(500))
+    name = Column(String(100))
+    companyId = Column(Integer, primary_key=True)
+
+    def __init__(self, logo, name):
+        self.logo = logo
+        self.name = name
 
 class Degree(Base):
-    tablename = 'degree'
-    programID = Column(Integer, primary_key=True)
-    name = Column(String)
-    branch = Column(String)
+    __tablename__ = 'degree'
+    programmeId = Column(String(50), primary_key=True)
+    name = Column(String(100))
+    branch = Column(String(100))
+
+    def __init__(self, programmeId, name, branch):
+        self.programmeId = programmeId
+        self.name = name
+        self.branch = branch
 
 class InterviewExperience(Base):
-    tablename = 'interview_experience'
-    interviewID = Column(Integer, primary_key=True)
-    positivePoints = Column(String)
-    isJobSecured = Column(String)
-    improvements = Column(String)
-    rollNumber = Column(Integer, ForeignKey('student.roll_no'))
-    companyID = Column(Integer, ForeignKey('company.CompanyID'))
+    __tablename__ = 'interviewExperience'
+    interviewId = Column(Integer, primary_key=True)
+    positivePoints = Column(String(500))
+    isJobSecured = Column(String(10))
+    improvements = Column(String(500))
+    rollNumber = Column(String(50), ForeignKey('student.rollNumber'))
+    companyId = Column(Integer, ForeignKey('company.companyId'))
+
+    def __init__(self, interviewId, positivePoints, isJobSecured, improvements, rollNumber, companyId):
+        self.interviewId = interviewId
+        self.positivePoints = positivePoints
+        self.isJobSecured = isJobSecured
+        self.improvements = improvements
+        self.rollNumber = rollNumber
+        self.companyId = companyId
 
 class Administrator(Base):
-    tablename = 'administrator'
-    username = Column(String)
-    AdminID = Column(Integer, primary_key=True)
-    PasswordHash = Column(String)
-    Name = Column(String)
+    __tablename__ = 'administrator'
+    username = Column(String(50))
+    adminId = Column(Integer, primary_key=True)
+    passwordHash = Column(String(256))
+    name = Column(String(100))
+
+    def __init__(self, username, passwordHash, name):
+        self.username = username
+        self.passwordHash = passwordHash
+        self.name = name
 
 class StudentDegreeHolder(Base):
-    tablename = 'student_degree_holder'
-    rollNumber = Column(Integer, ForeignKey('student.roll_no'), primary_key=True)
-    ProgrammeID=Column(Integer, ForeignKey('degree.programID'))
+    __tablename__ = 'studentDegreeHolder'
+    rollNumber = Column(String(50), ForeignKey('student.rollNumber'), primary_key=True)
+    programmeId = Column(String(50), ForeignKey('degree.programmeId'))
+
+    def __init__(self, rollNumber, programmeId):
+        self.rollNumber = rollNumber
+        self.programmeId = programmeId
+        
 
     
